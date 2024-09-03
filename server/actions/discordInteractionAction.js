@@ -67,7 +67,7 @@ async function handleIAmCommand(request, response) {
   }
 
   let message;
-  const oldId = await getDiscordId(channelId, resolvedSteamID64);
+  const oldId = await getDiscordId(channelId, steamName, resolvedSteamID64);
   if (oldId && oldId === discordId) {
     message = `You are already ${steamName}, <@${oldId}>.`;
   } else if (oldId) {

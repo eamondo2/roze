@@ -77,6 +77,7 @@ Run the following to initialize your database:
 ```
 CREATE TABLE Channels (
 channel_id varchar(20) PRIMARY KEY,
+guild_id varchar(20),
 roze_id char(4) UNIQUE,
 create_time timestamp DEFAULT now()
 );

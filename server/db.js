@@ -60,9 +60,15 @@ async function updateUser(channelId, steamName, discordId) {
 }
 
 /** Returns the user id if present, or null if not found. */
-async function getDiscordId(channelId, steamName) {
+async function getDiscordId(channelId, steamName, resolvedSteamID64) {
 
-  let SteamID64 = await attemptResolveSteamID(steamName);
+  let SteamID64;
+
+  if (resolvedSteamID64 !== undefined) {
+    SteamID64 = resolvedSteamID64;
+  } else {
+    SteamID64 = await attemptResolveSteamID(steamName);
+  }
 
   const db = await pool.connect();
 
