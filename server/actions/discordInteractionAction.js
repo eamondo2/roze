@@ -60,6 +60,7 @@ async function handleIAmCommand(request, response) {
 
   // Check steamName for SteamID64 
 
+  console.log('handleIamCommand resolve call');
   let resolvedSteamID64 = await attemptResolveSteamID(steamName);
 
   if (resolvedSteamID64 === undefined) {
