@@ -2,7 +2,7 @@ import "dotenv/config";
 import pg from "pg";
 
 import crypto from "crypto";
-import { attemptResolveSteamID } from "./utils";
+import { attemptResolveSteamID } from "./utils.js";
 
 const { Pool } = pg;
 
