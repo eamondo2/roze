@@ -17,6 +17,8 @@ async function civTurnNotificationAction(request, response) {
   }
 
   const steamUser = request.body.value2;
+
+  console.log(steamUser);
   const discordId = await getDiscordId(channel.channelId, steamUser);
 
   const userStr = discordId ? `<@${discordId}>` : steamUser;
