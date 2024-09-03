@@ -6,6 +6,9 @@ import { router } from "./router.js";
 import { VerifyDiscordRequest } from "./utils.js";
 
 const app = express();
+
+console.log(process.env.PUBLIC_KEY);
+
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.use("/", router);
