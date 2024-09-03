@@ -73,10 +73,10 @@ async function handleIAmCommand(request, response) {
     message = `You are already ${steamName}, <@${oldId}>.`;
   } else if (oldId) {
     message = `Updating ${steamName}. Was <@${oldId}>. Now <@${discordId}>.`;
-    await updateUser(channelId, resolvedSteamID64, discordId);
+    await updateUser(channelId, steamName, discordId, resolvedSteamID64);
   } else {
     message = `Got it. ${steamName} is <@${discordId}>.`;
-    await addUser(channelId, resolvedSteamID64, discordId);
+    await addUser(channelId, steamName, discordId, resolvedSteamID64);
   }
 
   return sendInteractionResponse(response, message);
