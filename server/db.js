@@ -22,10 +22,19 @@ const pool = new Pool({
 });
 
 /** Adds a mapping from steam username to discord id for the user. */
-async function addUser(channelId, steamName, discordId) {
+async function addUser(channelId, steamName, discordId, resolvedSteamID64) {
 
-  console.log('addUser attemptResolve call');
-  let SteamID64 = await attemptResolveSteamID(steamName);
+  let SteamID64;
+
+  if (resolvedSteamID64 !== undefined) {
+    SteamID64 = resolvedSteamID64;
+  } else {
+    console.log('addUser attempt call');
+    SteamID64 = await attemptResolveSteamID(steamName);
+  }
+
+  
+  
 
   const db = await pool.connect();
 
@@ -42,10 +51,20 @@ async function addUser(channelId, steamName, discordId) {
 }
 
 /** Updates a mapping from steam username to discord id for the user. */
-async function updateUser(channelId, steamName, discordId) {
+async function updateUser(channelId, steamName, discordId, resolvedSteamID64) {
 
-  console.log('updateUser attempt call');
-  let SteamID64 = await attemptResolveSteamID(steamName);
+
+  let SteamID64;
+
+  if (resolvedSteamID64 !== undefined) {
+    SteamID64 = resolvedSteamID64;
+  } else {
+    console.log('updateUser attempt call');
+    SteamID64 = await attemptResolveSteamID(steamName);
+  }
+
+  
+  
 
   const db = await pool.connect();
 
