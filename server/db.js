@@ -2,6 +2,7 @@ import "dotenv/config";
 import pg from "pg";
 
 import crypto from "crypto";
+import { attemptResolveSteamID } from "./utils";
 
 const { Pool } = pg;
 
@@ -22,12 +23,15 @@ const pool = new Pool({
 
 /** Adds a mapping from steam username to discord id for the user. */
 async function addUser(channelId, steamName, discordId) {
+
+  let SteamID64 = await attemptResolveSteamID(steamName);
+
   const db = await pool.connect();
 
   try {
     await db.query(
-      "INSERT INTO Users(channel_id, steam_name, discord_id) VALUES ($1, $2, $3)",
-      [channelId, steamName, discordId]
+      "INSERT INTO Users(channel_id, steam_id, discord_id) VALUES ($1, $2, $3)",
+      [channelId, SteamID64, discordId]
     );
   } catch (e) {
     console.log(e);
@@ -38,12 +42,15 @@ async function addUser(channelId, steamName, discordId) {
 
 /** Updates a mapping from steam username to discord id for the user. */
 async function updateUser(channelId, steamName, discordId) {
+
+  let SteamID64 = await attemptResolveSteamID(steamName);
+
   const db = await pool.connect();
 
   try {
     await db.query(
-      "UPDATE Users SET discord_id=$1 WHERE channel_id=$2 AND steam_name=$3",
-      [discordId, channelId, steamName]
+      "UPDATE Users SET discord_id=$1 WHERE channel_id=$2 AND steam_id=$3",
+      [discordId, channelId, SteamID64]
     );
   } catch (e) {
     console.log(e);
@@ -54,11 +61,14 @@ async function updateUser(channelId, steamName, discordId) {
 
 /** Returns the user id if present, or null if not found. */
 async function getDiscordId(channelId, steamName) {
+
+  let SteamID64 = await attemptResolveSteamID(steamName);
+
   const db = await pool.connect();
 
   const response = await db.query(
-    "SELECT discord_id FROM Users WHERE channel_id=$1 AND steam_name=$2",
-    [channelId, steamName]
+    "SELECT discord_id FROM Users WHERE channel_id=$1 AND steam_id=$2",
+    [channelId, SteamID64]
   );
   db.release();
   if (!response.rows.length) {

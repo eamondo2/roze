@@ -83,14 +83,14 @@ create_time timestamp DEFAULT now()
 
 CREATE TABLE Users (
 channel_id varchar(20) REFERENCES Channels,
-steam_name varchar(30),
+steam_id varchar(30),
 discord_id varchar(20),
 create_time timestamp DEFAULT now()
 );
 
-CREATE UNIQUE INDEX channel_player_idx ON Users (channel_id, steam_name);
+CREATE UNIQUE INDEX channel_player_idx ON Users (channel_id, steam_id);
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public to <your db user>;
+GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public to roze;
 ```
 
 If you ever want to reset it, you can just run:

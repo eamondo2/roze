@@ -3,6 +3,8 @@ import fetch from "node-fetch";
 import { verifyKey } from "discord-interactions";
 import { InteractionResponseType } from "discord-interactions";
 
+import steamIdResolver from "steamid-resolver";
+
 function VerifyDiscordRequest(clientKey) {
   return function (req, res, buf, encoding) {
     if (req.url !== "/discord") {
@@ -50,4 +52,23 @@ async function postMessage(channelId, content) {
   }
 }
 
-export { VerifyDiscordRequest, DiscordRequest, postMessage };
+
+/**
+ * 
+ * @param {String} steamName Vanity URL/screen name of user
+ * @returns {String} SteamID64 as string for user in question if valid, error if invalid.
+ */
+async function attemptResolveSteamID(steamName) {
+  let resolvedSteamID64;
+  try {
+    resolvedSteamID64 = await steamIdResolver.customUrlToSteamID64(steamName);
+  } catch (e) {
+    console.error(`Error fetching SteamID64 for given username: ${steamName}`);
+    console.error(`Error message: ${e}`);
+    resolvedSteamID64 = undefined;
+  }
+
+  return resolvedSteamID64;
+}
+
+export { VerifyDiscordRequest, DiscordRequest, postMessage, attemptResolveSteamID };
