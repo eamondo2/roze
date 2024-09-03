@@ -47,7 +47,7 @@ async function handleStartCommand(request, response) {
     return loggedError(response, "Error starting. Please try again.");
   }
 
-  const url = `http://roze.run/_/${channel.rozeId}`;
+  const url = `http://roze.bortle-host.io/_/${channel.rozeId}`;
   const message = `I've registered your channel. You can use ${url} for the webhook in Civ and updates will show up here. Players can use \`/civ iam\` to map their steam handles to their discord names.`;
   return sendInteractionResponse(response, message);
 }
